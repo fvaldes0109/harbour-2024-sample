@@ -23,7 +23,7 @@ pipeline {
                                                    usernameVariable: 'myuser')]) {
                     sh 'ls -la'
 
-                    sh "ssh vagrant@192.168.105.3 -i ${mykey} \"if service --status-all | grep -Fq 'myapp'; then sudo systemctl stop myapp; fi\""
+                    sh "ssh vagrant@192.168.105.3 -i ${mykey} \"if test -f /etc/systemd/system/myapp.service; then sudo systemctl stop myapp; fi\""
 
                     sh "scp -o StrictHostKeychecking=no -i ${mykey} main ${myuser}@192.168.105.3:"
                 }
