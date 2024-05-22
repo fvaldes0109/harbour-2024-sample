@@ -33,15 +33,16 @@ pipeline {
                 withCredentials([sshUserPrivateKey(credentialsId: 'mykey2',
                                                    keyFileVariable: 'mykey',
                                                    usernameVariable: 'myuser')]) {
-                    sh "if service --status-all | grep -Fq 'myapp'; then sudo systemctl stop myapp; fi"
 
                     sh "scp -o StrictHostKeychecking=no -i ${mykey} myapp.service ${myuser}@192.168.105.3:"
-                    // move unit file to systemd location
-                    sh "sudo mv myapp.service /etc/systemd/system/"
-                    sh "sudo systemctl daemon-reload"
-                    sh "sudo systemctl start myapp"
-                    sh "sudo systemctl status myapp"
-                    sh "sudo systemctl enable myapp"
+
+                    sh "ssh vagrant@192.168.105.3 -i ${mykey} \"if service --status-all | grep -Fq 'myapp'; then sudo systemctl stop myapp; fi\""
+
+                    sh "ssh vagrant@192.168.105.3 -i ${mykey} \"sudo mv myapp.service /etc/systemd/system/\""
+                    sh "ssh vagrant@192.168.105.3 -i ${mykey} \"sudo systemctl daemon-reload\""
+                    sh "ssh vagrant@192.168.105.3 -i ${mykey} \"sudo systemctl start myapp\""
+                    sh "ssh vagrant@192.168.105.3 -i ${mykey} \"sudo systemctl status myapp\""
+                    sh "ssh vagrant@192.168.105.3 -i ${mykey} \"sudo systemctl enable myapp\""
                 }
             }
         }
