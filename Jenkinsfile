@@ -23,6 +23,8 @@ pipeline {
                                                    usernameVariable: 'myuser')]) {
                     sh 'ls -la'
 
+                    sh "ssh vagrant@192.168.105.3 -i ${mykey} \"if service --status-all | grep -Fq 'myapp'; then sudo systemctl stop myapp; fi\""
+
                     sh "scp -o StrictHostKeychecking=no -i ${mykey} main ${myuser}@192.168.105.3:"
                 }
             }
@@ -33,8 +35,6 @@ pipeline {
                 withCredentials([sshUserPrivateKey(credentialsId: 'mykey2',
                                                    keyFileVariable: 'mykey',
                                                    usernameVariable: 'myuser')]) {
-
-                    sh "ssh vagrant@192.168.105.3 -i ${mykey} \"if service --status-all | grep -Fq 'myapp'; then sudo systemctl stop myapp; fi\""
 
                     sh "scp -o StrictHostKeychecking=no -i ${mykey} myapp.service ${myuser}@192.168.105.3:"
 
