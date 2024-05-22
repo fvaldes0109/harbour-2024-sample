@@ -33,7 +33,7 @@ pipeline {
                 withCredentials([sshUserPrivateKey(credentialsId: 'mykey2',
                                                    keyFileVariable: 'mykey',
                                                    usernameVariable: 'myuser')]) {
-                    sh 'sudo systemctl stop myapp'
+                    sh "if service --status-all | grep -Fq 'myapp'; then sudo systemctl stop myapp; fi"
 
                     sh "scp -o StrictHostKeychecking=no -i ${mykey} myapp.service ${myuser}@192.168.105.3:"
                     // move unit file to systemd location
