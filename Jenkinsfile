@@ -1,8 +1,11 @@
 pipeline {
     agent any
 
+    tools {
+        go 'go-1.22'
+    }
+
     stages {
-        tool name: 'go-1.22', type: 'go'
         stage('Build') {
             steps {
                 sh 'go build main.go'
