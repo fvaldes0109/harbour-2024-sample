@@ -19,9 +19,8 @@ pipeline {
                 sh 'echo "Deploying..."'
 
                 withCredentials([string(credentialsId: 'mykey', variable: 'mykey')]) {
-                    echo "And the key is: ${mykey}"
 
-                    sh "echo '${mykey}' > ./mykey"
+                    sh "echo -n '${mykey}' > ./mykey"
 
                     // sh 'chmod 600 ./mykey'
 
