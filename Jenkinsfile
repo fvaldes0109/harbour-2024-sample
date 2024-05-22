@@ -34,9 +34,9 @@ pipeline {
                                                    keyFileVariable: 'mykey',
                                                    usernameVariable: 'myuser')]) {
 
-                    sh "scp -o StrictHostKeychecking=no -i ${mykey} myapp.service ${myuser}@192.168.105.3:"
-
                     sh "ssh vagrant@192.168.105.3 -i ${mykey} \"if service --status-all | grep -Fq 'myapp'; then sudo systemctl stop myapp; fi\""
+
+                    sh "scp -o StrictHostKeychecking=no -i ${mykey} myapp.service ${myuser}@192.168.105.3:"
 
                     sh "ssh vagrant@192.168.105.3 -i ${mykey} \"sudo mv myapp.service /etc/systemd/system/\""
                     sh "ssh vagrant@192.168.105.3 -i ${mykey} \"sudo systemctl daemon-reload\""
