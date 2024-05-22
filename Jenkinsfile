@@ -24,7 +24,8 @@ pipeline {
                     sh "echo '${mykey}' > ./mykey"
 
                     // sh 'chmod 600 ./mykey'
-                    // sh 'scp -i ./mykey main maksymprokopov@192.168.105.3:'
+
+                    sh 'scp -i ./mykey main maksymprokopov@192.168.105.3:'
                 }
 
 
