@@ -1,11 +1,15 @@
 - hosts: app
   tasks:
 
+  - name: "Check if Service Exists"
+    shell: "if test -f /etc/systemd/system/myapp.service ; then echo true; else echo false; fi"
+    register: service_exists
+
   - name: "Stop Service"
     ansible.builtin.systemd:
       name: myapp
       state: stopped
-    when: test -f /etc/systemd/system/myapp.service
+    when: service_exists
     become: true # Use sudo
 
   - name: "Copy Artifact"
