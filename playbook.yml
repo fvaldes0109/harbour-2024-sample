@@ -17,6 +17,12 @@
       src: main
       dest: /home/vagrant/main
 
+  - name: "Make Artifact Executable"
+    file:
+      path: /home/vagrant/main
+      mode: "u+x"
+    become: true # Use sudo
+
   - name: "Copy Service Definition"
     copy:
       src: myapp.service
