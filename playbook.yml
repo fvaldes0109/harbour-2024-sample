@@ -1,0 +1,26 @@
+- hosts: app
+  tasks:
+
+  - name: "Stop Service"
+    ansible.builtin.systemd:
+      name: myapp
+      state: stopped
+    become: true # Use sudo
+
+  - name: "Copy Artifact"
+    copy:
+      src: main
+      dest: /home/vagrant/main
+
+  - name: "Copy Service Definition"
+    copy:
+      src: myapp.service
+      dest: /etc/systemd/system/myapp.service
+    become: true # Use sudo
+
+  - name: "Enable and Start Service"
+    ansible.builtin.systemd:
+      name: myapp
+      enabled: yes
+      state: started
+    become: true # Use sudo
