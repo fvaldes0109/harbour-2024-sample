@@ -5,6 +5,7 @@
     ansible.builtin.systemd:
       name: myapp
       state: stopped
+    when: test -f /etc/systemd/system/myapp.service
     become: true # Use sudo
 
   - name: "Copy Artifact"
