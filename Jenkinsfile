@@ -15,6 +15,9 @@ pipeline {
         }
 
         stage('Deploy to Stage') {
+            environment {
+                ANSIBLE_HOST_KEY_CHECKING = 'false'
+            }
             steps {
                 sh 'echo "Deploying..."'
                 ansiblePlaybook credentialsId: 'mykey2',
@@ -24,6 +27,9 @@ pipeline {
         }
 
         stage('Deploy to Production') {
+            environment {
+                ANSIBLE_HOST_KEY_CHECKING = 'false'
+            }
             steps {
                 sh 'echo "Deploying..."'
                 ansiblePlaybook credentialsId: 'mykey2',
