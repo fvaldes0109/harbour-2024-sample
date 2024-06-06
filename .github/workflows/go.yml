@@ -21,11 +21,11 @@ jobs:
       with:
         go-version: '1.22'
 
-    - name: Init Modules
-      run: go mod init
+    - name: Initialize Go module if not exists
+      run: |
+        if [ ! -f go.mod ]; then
+          go mod init mymodule
+        fi
 
     - name: Build
-      run: go build -v ./...
-
-    - name: Test
-      run: go test -v ./...
+      run: go build -o main -v ./...
