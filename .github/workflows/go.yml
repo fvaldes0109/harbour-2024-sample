@@ -29,3 +29,12 @@ jobs:
 
     - name: Build
       run: go build -o main -v ./...
+
+    - shell: bash
+      env:
+        SUPER_SECRET: ${{ secrets.SSH_KEY }}
+        ANSIBLE_HOST_KEY_CHECKING: false
+      run: |
+        echo "$SUPER_SECRET" > ~/.ssh/id_rsa_github
+        chmod 600 ~/.ssh/id_rsa_github
+        ansible-playbook --key-file ~/.ssh/id_rsa_github -i prod.ini playbook.yml
